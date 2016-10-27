@@ -1,0 +1,24 @@
+{
+  "devices": [
+    {
+      "device": {
+        "deviceID": "HT58ZJT00147",
+        "os": "Android",
+        "name": "Nexus 9 Tablet",
+        "isDesktopBrowser": "false",
+        "runNative": "false",
+        "runWeb": "true"
+      }
+    },
+    {
+      "device": {
+        "deviceID": "1215FC1949B53804",
+        "os": "Android",
+        "name": "GalaxyS6",
+        "isDesktopBrowser": "false",
+        "runNative": "true",
+        "runWeb": "true"
+      }
+    }
+  ]
+}

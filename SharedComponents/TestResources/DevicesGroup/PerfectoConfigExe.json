@@ -1,0 +1,15 @@
+
+{
+  "devices": [    
+    {
+      "device": {
+        "deviceID": "AA7EEEAADD92242C665D2807B538BDACFAA5A0DB",
+        "os": "iOS",
+        "name": "iPhone 6s",
+        "isDesktopBrowser": "false",
+        "runNative": "false",
+        "runWeb": "true"
+      }
+    }
+  ]
+}
