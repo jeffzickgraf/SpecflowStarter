@@ -157,17 +157,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Pages\ExtraCareCardPage.cs" />
+    <Compile Include="MedicationFeaturesSteps.cs" />
+    <Compile Include="Pages\MedicationPage.cs" />
+    <Compile Include="Pages\PatientMenuPage.cs" />
+    <Compile Include="Pages\SignInPage.cs" />
     <Compile Include="Pages\HomePage.cs" />
-    <Compile Include="Pages\LaunchPage.cs" />
-    <Compile Include="Pages\Navigation.cs" />
-    <Compile Include="Pages\Popups.cs" />
-    <Compile Include="Pages\StoreLocatorPage.cs" />
-    <Compile Include="Pages\YourDealsAndRewardsPage.cs" />
-    <Compile Include="PerfectoFeatures.feature.cs">
+    <Compile Include="MedicationFeatures.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PerfectoFeatures.feature</DependentUpon>
+      <DependentUpon>MedicationFeatures.feature</DependentUpon>
     </Compile>
     <Compile Include="PerfectoFeaturesSteps.cs" />
     <Compile Include="PerfectoHooks.cs" />
@@ -186,9 +184,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="PerfectoFeatures.feature">
+    <None Include="MedicationFeatures.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>PerfectoFeatures.feature.cs</LastGenOutput>
+      <LastGenOutput>MedicationFeatures.feature.cs</LastGenOutput>
     </None>
     <None Include="runtests.cmd" />
     <None Include="SpecRunTestProfile.xsd">

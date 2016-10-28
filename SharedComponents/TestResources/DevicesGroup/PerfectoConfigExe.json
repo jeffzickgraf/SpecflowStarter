@@ -7,8 +7,8 @@
         "os": "iOS",
         "name": "iPhone 6s",
         "isDesktopBrowser": "false",
-        "runNative": "false",
-        "runWeb": "true"
+        "runNative": "true",
+        "runWeb": "false"
       }
     }
   ]
