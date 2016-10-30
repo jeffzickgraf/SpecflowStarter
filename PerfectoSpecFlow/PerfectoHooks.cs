@@ -62,14 +62,10 @@ namespace PerfectoSpecFlow
             capabilities.SetCapability("password", PerfectoPass);
 
             capabilities.SetCapability("platformName", CurrentDevice.DeviceDetails.OS);
-            
             capabilities.SetCapability("deviceName", CurrentDevice.DeviceDetails.DeviceID);
-            //capabilities.SetCapability("windTunnelPersona", "Georgia");
+            capabilities.SetCapability("windTunnelPersona", "Georgia");
 			capabilities.SetCapability("scriptName", "Parallel-SpecFlow-Native");
-			//capabilities.SetCapability("platformVersion", "");
-			//capabilities.SetCapability("browserName", "");
-			//capabilities.SetCapability("deviceName", "");
-
+			
 			var url = new Uri(string.Format("http://{0}/nexperience/perfectomobile/wd/hub", PerfectoHost));
 
             if (capabilities.GetCapability("platformName").Equals("Android"))
