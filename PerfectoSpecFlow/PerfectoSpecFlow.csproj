@@ -159,6 +159,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="MedicationFeaturesSteps.cs" />
     <Compile Include="Pages\MedicationPage.cs" />
+    <Compile Include="Pages\PatientPage.cs" />
     <Compile Include="Pages\PatientMenuPage.cs" />
     <Compile Include="Pages\SignInPage.cs" />
     <Compile Include="Pages\HomePage.cs" />

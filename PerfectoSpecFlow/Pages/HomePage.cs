@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Remote;
+﻿
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
+using System;
+using System.Threading;
 
 namespace PerfectoSpecFlow
 {
@@ -11,25 +10,41 @@ namespace PerfectoSpecFlow
     {
 
 		private static string PatientButton = "//*[@text='Patient'] | //*[@label='Patient']";
+		private static string UsernameField = "//*[@resource-id='com.mayoclinic.patient:id/fragment_login_username_edit_text'] |  //UIAScrollView//UIATextField";
 
-		public static void ClickPatient(RemoteWebDriver driver)
+		public static void ClickPatient(AppiumDriver<IWebElement> driver)
         {
-            driver.FindElementByXPath(PatientButton).Click();
-        }
+			//Ipad has no home page
+			if (PerfectoUtils.IsiPad())
+				return;
 
+			if (PerfectoUtils.IsTablet())
+			{
+				Console.WriteLine("About to click patient link - sleep for tablet " + PerfectoHooks.CurrentDevice.DeviceDetails.Name);
 
-		/*
-button.startsignin = xpath=//*[text()="Sign In"]
-login.user = xpath=//*[@resource-id='com.mayoclinic.patient:id/fragment_login_username_edit_text'] |  //UIAScrollView//UIATextField
-login.password = xpath=//*[@resource-id='com.mayoclinic.patient:id/fragment_login_password_edit_text'] | //*[@value='Enter Password']
-button.signin = xpath=//*[@resource-id='com.mayoclinic.patient:id/fragment_login_sign_in_button'] | //*[@label='Sign In']
+				Thread.Sleep(15000);
+			}
 
-startpage.patientlink = xpath=
-patient.header = xpath=//*[@label='Patient'] | //*[@text='Patient']
-medications.button = xpath=//*[@text='Medications'] | //*[@label='Medications']
-refill.button = xpath=//*[@text='Refill a prescription'] | //*[@label='Refill a Prescription']
-		 * */
+			driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(25));
+			driver.FindElementByXPath(PatientButton).Click();
+			driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(6));
+			//App sends to authenticate if haven't already authenticated after opening app
 
-
+			try
+			{
+				if (driver.FindElementsByXPath(UsernameField).Count > 0)
+				{
+					Console.WriteLine("Redirected to sign in - attempt sign in " + PerfectoHooks.CurrentDevice.DeviceDetails.Name);
+					SignInPage.SignIn(driver);
+				}
+				{
+					Console.WriteLine("login screen not found " + PerfectoHooks.CurrentDevice.DeviceDetails.Name);
+				}
+			}
+			catch (Exception)
+			{	
+			}
+			driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+		}
 	}
 }

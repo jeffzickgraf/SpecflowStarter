@@ -97,8 +97,19 @@ namespace PerfectoSpecFlow
 				case "Patient":
 					switch (buttonName)
 					{
-						case "Medications":
+						case "???":
 							driver.Context = Constants.NATIVEAPP;
+							//PatientPage.;
+							break;
+						default:
+							break;
+					}
+					break;
+				case "Patient Menu":
+					switch (buttonName)
+					{
+						case "Medications":
+							PatientMenuPage.ValidateOnPatientHeader(driver);
 							PatientMenuPage.GoToMedicationPage(driver);
 							break;
 						default:

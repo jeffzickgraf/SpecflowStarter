@@ -21,5 +21,10 @@ namespace PerfectoSpecFlow
 		public static readonly string COMPLETED = "Completed";
 		public static readonly string PASS = "Pass";
 		public static readonly string FAIL = "Fail";
-    }
+
+		public enum Rotation
+		{
+			PORTRAIT, LANDSCAPE
+		}
+	}
 }

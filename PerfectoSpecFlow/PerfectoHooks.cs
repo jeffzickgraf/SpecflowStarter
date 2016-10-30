@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using TechTalk.SpecFlow;
 using PerfectoSpecFlow.Utility;
+using System.Text;
 
 namespace PerfectoSpecFlow
 {
@@ -26,7 +27,7 @@ namespace PerfectoSpecFlow
 		protected static PerfectoTestParams PerfectoTestingParameters;
 		
 		protected static string BaseProjectPath;
-		protected static Device CurrentDevice;
+		public static Device CurrentDevice;
 		protected static string TestRunLocation;
 		
 		static string PerfectoUser;
@@ -63,7 +64,7 @@ namespace PerfectoSpecFlow
             capabilities.SetCapability("platformName", CurrentDevice.DeviceDetails.OS);
             
             capabilities.SetCapability("deviceName", CurrentDevice.DeviceDetails.DeviceID);
-            capabilities.SetCapability("windTunnelPersona", "Georgia");
+            //capabilities.SetCapability("windTunnelPersona", "Georgia");
 			capabilities.SetCapability("scriptName", "Parallel-SpecFlow-Native");
 			//capabilities.SetCapability("platformVersion", "");
 			//capabilities.SetCapability("browserName", "");
@@ -78,9 +79,11 @@ namespace PerfectoSpecFlow
             else
             {
                 driver = new IOSDriver<IWebElement>(url, capabilities);
-            }
+			}
 
-            reportingClient = CreateReportingClient();
+			driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+
+			reportingClient = CreateReportingClient();
         }
 
         /**
@@ -129,12 +132,42 @@ namespace PerfectoSpecFlow
         [AfterFeature]
         public static void afterFeature()
         {
+			DownloadReportiumReportLink();
             Console.WriteLine("Report-Url: " + reportingClient.getReportUrl());
             driver.Close();
-            driver.Quit();
+            driver.Quit();			
         }
 
-        private static ReportiumClient CreateReportingClient()
+		private static void DownloadReportiumReportLink()
+		{	
+			try
+			{
+				String reportURL = reportingClient.getReportUrl();
+				String reportHTML = "<html><body><a href='" + reportURL + "'>" + reportURL + "</a></body></html>";
+
+				string currentPath = TestRunLocation; //Directory.GetCurrentDirectory();
+				string newPath = Path.GetFullPath(Path.Combine(Path.Combine(currentPath, @"..\..\..\RunReports\"), CurrentDevice.DeviceDetails.Name));
+				Directory.CreateDirectory(newPath);
+
+				string reportFileName = Path.Combine(newPath, ScenarioContext.Current.ScenarioInfo.Title.Replace(" ","") + ".html");
+
+				Console.WriteLine("Report file location: " + reportFileName);
+
+				using (FileStream fs = new FileStream(reportFileName, FileMode.Create))
+				{
+					using (StreamWriter w = new StreamWriter(fs, Encoding.UTF8))
+					{
+						w.WriteLine(reportHTML);
+					}
+				}
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Error creating Report HTML link file for " + CurrentDevice.DeviceDetails.Name);
+			}
+		}
+
+		private static ReportiumClient CreateReportingClient()
         {
             PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withProject(new Project("Specflow Native", "v1.0")) //optional 
@@ -270,7 +303,7 @@ namespace PerfectoSpecFlow
         {
             return driver.Capabilities.GetCapability("platformName").Equals("Android");
         }
-
+		
 		private static void CheckForValidDeviceConfiguration()
 		{
 			//shouldn't get these next 3 inconclusives - but you never know :-)

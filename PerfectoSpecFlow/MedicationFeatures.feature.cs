@@ -67,10 +67,10 @@ namespace PerfectoSpecFlow
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("As a user I want to order prescriptions.")]
-        public virtual void AsAUserIWantToOrderPrescriptions_()
+        [NUnit.Framework.DescriptionAttribute("TC 19403 Order Medications")]
+        public virtual void TC19403OrderMedications()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("As a user I want to order prescriptions.", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC 19403 Order Medications", ((string[])(null)));
 #line 5
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -80,7 +80,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.And("I click Patient on the Home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("I click Medications on the Patient page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I click Medications on the Patient Menu page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
  testRunner.When("I click Refill a Prescription on the Medications page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11

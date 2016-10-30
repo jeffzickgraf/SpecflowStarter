@@ -6,6 +6,7 @@ appsettings.config
 
 #Project specific
 TestResults/
+RunReports/
 **/*report.pdf
 *report.pdf
 *.csv

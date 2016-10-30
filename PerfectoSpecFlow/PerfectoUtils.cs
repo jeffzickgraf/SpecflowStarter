@@ -36,7 +36,7 @@ namespace PerfectoSpecFlow
         }
 
         //Perform text check ocr function with boolean return
-        public static bool OCRTextCheckPoint(RemoteWebDriver driver, String text, int timeout)
+        public static bool OCRTextCheckPoint(RemoteWebDriver driver, String text, int timeout, bool shouldInvert=false)
         {
             bool checkpointPassed;
 
@@ -45,7 +45,13 @@ namespace PerfectoSpecFlow
             Dictionary<string, object> Parameters = new Dictionary<string, object>();
             Parameters.Add("content", text);
             Parameters.Add("timeout", timeout.ToString());
-            string findstring = (string)driver.ExecuteScript(command, Parameters);
+
+			if (shouldInvert)
+			{
+				Parameters.Add("inverse", "yes");
+			}
+
+			string findstring = (string)driver.ExecuteScript(command, Parameters);
             bool.TryParse(findstring, out checkpointPassed);
 
             return checkpointPassed;
@@ -120,7 +126,7 @@ namespace PerfectoSpecFlow
 
         //Performs text click ocr function
         public static void OCRTextClick(RemoteWebDriver driver, String text, int threshold, int timeout, int index,
-            bool shouldScroll = false, int maxScroll = 5)
+            bool shouldScroll = false, int maxScroll = 5, bool shouldInvert = false)
         {
             Console.WriteLine("Find: " + text);
             string command = "mobile:button-text:click";
@@ -145,10 +151,10 @@ namespace PerfectoSpecFlow
                 Parameters.Add("next", "SWIPE_UP");
             }
 
-          
-
-
-
+			if (shouldInvert)
+			{
+				Parameters.Add("inverse", "yes");
+			}
 
             driver.ExecuteScript(command, Parameters);
         }
@@ -473,7 +479,7 @@ namespace PerfectoSpecFlow
 
             return result;
         }
-
+		
         public static string GetOS(RemoteWebDriver driver)
         {
             string command = "mobile:handset:info";
@@ -484,6 +490,46 @@ namespace PerfectoSpecFlow
             String result = (String)(driver.ExecuteScript(command, Parameters));
 
             return result;
-        }
-    }
+		}
+
+		public static void RotateDevice(RemoteWebDriver driver, Constants.Rotation rotationType)
+		{			
+			Dictionary<string, object> parameters = new Dictionary<string, object>();
+			String state = "portrait";
+			if (rotationType == Constants.Rotation.LANDSCAPE)
+			{
+				state = "landscape";
+			}
+			parameters.Add("state", state);
+
+			Console.WriteLine("Rotate Device " + state);
+
+			var result = driver.ExecuteScript("mobile:handset:rotate", parameters);
+		}
+
+		public static bool IsAndroid()
+		{
+			return PerfectoHooks.CurrentDevice.DeviceDetails.OS.ToLowerInvariant() == "android";
+		}
+
+		public static bool IsiOS()
+		{
+			return PerfectoHooks.CurrentDevice.DeviceDetails.OS.ToLowerInvariant() == "ios";
+		}
+
+		/// <summary>
+		/// True when iPad or Android Tablet
+		/// </summary>
+		/// <returns></returns>
+		public static bool IsTablet()
+		{
+			return PerfectoHooks.CurrentDevice.DeviceDetails.Name.ToLowerInvariant().Contains("tablet") ||
+				PerfectoHooks.CurrentDevice.DeviceDetails.Name.ToLowerInvariant().Contains("ipad") ;
+		}
+
+		public static bool IsiPad()
+		{
+			return PerfectoHooks.CurrentDevice.DeviceDetails.Name.ToLowerInvariant().Contains("ipad");
+		}
+	}
 }
